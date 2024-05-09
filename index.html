@@ -6,7 +6,109 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rock Paper Scissor</title>
 </head>
+
+<style>
+    html {
+      font-family: sans-serif;
+    }
+    body {
+      width: 50%;
+      max-width: 800px;
+      min-width: 480px;
+      margin: 0 auto;
+      text-align: center;
+    }
+  </style>
+
 <body>
-    <script src="game.js"></script>
+    <h1>Rock, Paper, or Scissor?</h1>
+    <div>
+        <p>Pick your choice</p>
+        <button id="rockBtn">Rock</button>
+        <button id="paperBtn">Paper</button>
+        <button id="scissorBtn">Scissor</button>
+    </div>
+    <div class="resultBoard">
+        <p class="compChoice"></p>
+        <p class="results"></p>
+        <p class="scoreBoard"></p>
+        <p class="gameLeft"></p>
+    </div>
 </body>
+
+<script >
+    const rockBtn = document.querySelector("#rockBtn")
+    const paperBtn = document.querySelector("#paperBtn")
+    const scissorBtn = document.querySelector("#scissorBtn")
+
+    const compChoice = document.querySelector(".compChoice")
+    const results = document.querySelector(".results")
+    const scoreBoard = document.querySelector(".scoreBoard")
+    const gameLeft = document.querySelector(".gameLeft")
+
+    function getComputerChoice() {
+        choice = Math.round(Math.random()*100)
+        if (choice <= 33) {
+            return "Rock"
+        }
+        else if (choice > 33 && choice <= 66) {
+            return "Paper"
+        } else {
+            return "Scissor"
+        }
+    }
+
+    function displayResult(computerChoice, humanChoice, res, humanScore, computerScore){
+        compChoice.textContent = `Computer choice: ${computerChoice}`
+        if (res == "Win"){
+            results.textContent = `You win! ${humanChoice} beats ${computerChoice}`
+            results.style.backgroundColor = "green"
+        }
+        else if (res == "Lose"){
+            results.textContent = `You lose! ${computerChoice} beats ${humanChoice}`
+            results.style.backgroundColor = "red"
+        }
+        else {
+            results.textContent = "You tied!"
+            results.style.backgroundColor = "blue"
+        }
+        scoreBoard.textContent = `Your score: ${humanScore}     Computer score: ${computerScore}`
+    }
+
+    function gameOver(){
+
+    }
+
+    function playGame(humanChoice){
+        let humanScore = 0;
+        let computerScore = 0;
+
+        computerChoice = getComputerChoice()
+
+        if ((humanChoice == "Rock" && computerChoice == "Scissor") ||
+            (humanChoice == "Paper" && computerChoice == "Rock") ||
+            (humanChoice == "Scissor" && computerChoice == "Paper")){
+                humanScore += 1
+                displayResult(computerChoice, humanChoice, "Win", humanScore, computerScore)
+        }
+        else if ((humanChoice == "Rock" && computerChoice == "Paper") ||
+                (humanChoice == "Paper" && computerChoice == "Scissor") ||
+                (humanChoice == "Scissor" && computerChoice == "Rock")){
+                    computerScore += 1
+                    displayResult(computerChoice, humanChoice, "Lose", humanScore, computerScore)
+                }
+
+        else {
+            computerScore += 1
+            humanScore += 1
+            displayResult(computerChoice, humanChoice, "Tie", humanScore, computerScore)
+        }
+
+    }
+    rockBtn.addEventListener("click", () => {playGame("Rock")})
+    paperBtn.addEventListener("click", () => {playGame("Paper")})
+    scissorBtn.addEventListener("click", () => playGame("Scissor"))
+
+</script>
+
 </html>
