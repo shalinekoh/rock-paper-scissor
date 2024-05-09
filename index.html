@@ -34,6 +34,7 @@
         <p class="scoreBoard"></p>
         <p class="gameLeft"></p>
         <p class="gameO"></p>
+        <p class="playerW"></p>
     </div>
 </body>
 
@@ -47,6 +48,7 @@
     const scoreBoard = document.querySelector(".scoreBoard")
     const gameLeft = document.querySelector(".gameLeft")
     const gameO = document.querySelector(".gameO")
+    const playerW = document.querySelector(".playerW")
 
     function getComputerChoice() {
         choice = Math.round(Math.random()*100)
@@ -78,12 +80,29 @@
         gameLeft.textContent = `Game left: ${gameCount-1}`;
     }
 
-    function gameOver(){
+    function gameOver(playerWin){
         gameO.textContent = "GAME OVER!"
+        playerWin = true ? playerW.textContent = "You win!" : playerW.textContent = "You lose"
         gameO.style.fontSize = "bold";
         rockBtn.disabled = true;
         paperBtn.disabled = true;
         scissorBtn.disabled = true;
+        resetButton = document.createElement("button")
+        resetButton.textContent = "Start new game"
+        document.body.appendChild(resetButton)
+        resetButton.addEventListener("click", resetGame)
+    }
+
+    function resetGame(){
+        document.body.removeChild(resetButton)
+        rockBtn.disabled = false
+        paperBtn.disabled = false
+        scissorBtn.disabled = false
+        resetResult = document.querySelectorAll('.resultBoard p')
+        for (const result of resetResult){
+            result.textContent = '';
+        }
+        playGame();
     }
 
     function playGame(){
@@ -110,7 +129,7 @@
             }
             gameCount--;
             if (gameCount == 0){
-                gameOver();
+                (humanScore > computerScore) ? gameOver(true) : gameOver(false)
             }
         }
 
