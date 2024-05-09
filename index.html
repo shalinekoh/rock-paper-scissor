@@ -33,6 +33,7 @@
         <p class="results"></p>
         <p class="scoreBoard"></p>
         <p class="gameLeft"></p>
+        <p class="gameO"></p>
     </div>
 </body>
 
@@ -45,6 +46,7 @@
     const results = document.querySelector(".results")
     const scoreBoard = document.querySelector(".scoreBoard")
     const gameLeft = document.querySelector(".gameLeft")
+    const gameO = document.querySelector(".gameO")
 
     function getComputerChoice() {
         choice = Math.round(Math.random()*100)
@@ -58,7 +60,7 @@
         }
     }
 
-    function displayResult(computerChoice, humanChoice, res, humanScore, computerScore){
+    function displayResult(computerChoice, humanChoice, res, humanScore, computerScore, gameCount){
         compChoice.textContent = `Computer choice: ${computerChoice}`
         if (res == "Win"){
             results.textContent = `You win! ${humanChoice} beats ${computerChoice}`
@@ -73,10 +75,15 @@
             results.style.backgroundColor = "blue"
         }
         scoreBoard.textContent = `Your score: ${humanScore}     Computer score: ${computerScore}`
+        gameLeft.textContent = `Game left: ${gameCount-1}`;
     }
 
     function gameOver(){
-        console.log("Game Over")
+        gameO.textContent = "GAME OVER!"
+        gameO.style.fontSize = "bold";
+        rockBtn.disabled = true;
+        paperBtn.disabled = true;
+        scissorBtn.disabled = true;
     }
 
     function playGame(){
@@ -90,25 +97,22 @@
             (humanChoice == "Paper" && computerChoice == "Rock") ||
             (humanChoice == "Scissor" && computerChoice == "Paper")){
                 humanScore += 1
-                displayResult(computerChoice, humanChoice, "Win", humanScore, computerScore)
+                displayResult(computerChoice, humanChoice, "Win", humanScore, computerScore, gameCount)
             }
             else if ((humanChoice == "Rock" && computerChoice == "Paper") ||
             (humanChoice == "Paper" && computerChoice == "Scissor") ||
             (humanChoice == "Scissor" && computerChoice == "Rock")){
                 computerScore += 1
-                displayResult(computerChoice, humanChoice, "Lose", humanScore, computerScore)
+                displayResult(computerChoice, humanChoice, "Lose", humanScore, computerScore, gameCount)
             }
             else {
-                computerScore += 1
-                humanScore += 1
-                displayResult(computerChoice, humanChoice, "Tie", humanScore, computerScore)
+                displayResult(computerChoice, humanChoice, "Tie", humanScore, computerScore, gameCount)
             }
-
+            gameCount--;
             if (gameCount == 0){
                 gameOver();
             }
         }
-
 
         rockBtn.addEventListener("click", () => {playRound("Rock")})
         paperBtn.addEventListener("click", () => {playRound("Paper")})
