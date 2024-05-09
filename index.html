@@ -76,38 +76,46 @@
     }
 
     function gameOver(){
-
+        console.log("Game Over")
     }
 
-    function playGame(humanChoice){
+    function playGame(){
         let humanScore = 0;
         let computerScore = 0;
+        let gameCount = 5;
 
-        computerChoice = getComputerChoice()
-
-        if ((humanChoice == "Rock" && computerChoice == "Scissor") ||
+        function playRound(humanChoice){
+            computerChoice = getComputerChoice()
+            if ((humanChoice == "Rock" && computerChoice == "Scissor") ||
             (humanChoice == "Paper" && computerChoice == "Rock") ||
             (humanChoice == "Scissor" && computerChoice == "Paper")){
                 humanScore += 1
                 displayResult(computerChoice, humanChoice, "Win", humanScore, computerScore)
-        }
-        else if ((humanChoice == "Rock" && computerChoice == "Paper") ||
-                (humanChoice == "Paper" && computerChoice == "Scissor") ||
-                (humanChoice == "Scissor" && computerChoice == "Rock")){
-                    computerScore += 1
-                    displayResult(computerChoice, humanChoice, "Lose", humanScore, computerScore)
-                }
+            }
+            else if ((humanChoice == "Rock" && computerChoice == "Paper") ||
+            (humanChoice == "Paper" && computerChoice == "Scissor") ||
+            (humanChoice == "Scissor" && computerChoice == "Rock")){
+                computerScore += 1
+                displayResult(computerChoice, humanChoice, "Lose", humanScore, computerScore)
+            }
+            else {
+                computerScore += 1
+                humanScore += 1
+                displayResult(computerChoice, humanChoice, "Tie", humanScore, computerScore)
+            }
 
-        else {
-            computerScore += 1
-            humanScore += 1
-            displayResult(computerChoice, humanChoice, "Tie", humanScore, computerScore)
+            if (gameCount == 0){
+                gameOver();
+            }
         }
 
+
+        rockBtn.addEventListener("click", () => {playRound("Rock")})
+        paperBtn.addEventListener("click", () => {playRound("Paper")})
+        scissorBtn.addEventListener("click", () => {playRound("Scissor")})
     }
-    rockBtn.addEventListener("click", () => {playGame("Rock")})
-    paperBtn.addEventListener("click", () => {playGame("Paper")})
-    scissorBtn.addEventListener("click", () => playGame("Scissor"))
+
+    playGame();
 
 </script>
 
